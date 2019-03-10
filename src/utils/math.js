@@ -38,7 +38,7 @@ const math = () => {
     answer = findAnAnswer(ints);
   }
 
-  return [...shuffle(ints), answer];
+  return [shuffle(ints), answer];
 };
 
 export default math;
