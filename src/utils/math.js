@@ -17,10 +17,10 @@ const multiply = (x, y) => x * y;
 const divide = (x, y) => x / y;
 
 export const OPS = {
-  add,
-  subtract,
-  multiply,
-  divide,
+  '+': add,
+  '-': subtract,
+  '×': multiply,
+  '÷': divide,
 };
 
 const OP_FUNCS = Object.values(OPS);

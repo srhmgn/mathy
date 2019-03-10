@@ -7,8 +7,12 @@
 .list {
   display: grid;
   grid-auto-flow: column;
-  grid-column-gap: 15px;
-  margin: 10% 0;
+  grid-column-gap: 5%;
+  margin: 5% 0;
+}
+
+.list--op {
+  width: 40%;
 }
 
 .box {
@@ -40,4 +44,9 @@
 
 .box--answer .box-content {
   background-color: gold;
+}
+
+.list--op .box-content {
+  background-color: coral;
+  color: white;
 }
