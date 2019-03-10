@@ -1,3 +1,8 @@
+import { OPS } from '../constants';
+
+const NO_OP = '';
+const OP_FUNCS = Object.values(OPS);
+
 const randomInt = () => Math.ceil(Math.random() * 8) + 1;
 
 const shuffle = (a) => {
@@ -11,22 +16,6 @@ const shuffle = (a) => {
 
 const pickRandom = items => items[Math.floor(Math.random() * items.length)];
 
-const add = (x, y) => x + y;
-const subtract = (x, y) => x - y;
-const multiply = (x, y) => x * y;
-const divide = (x, y) => x / y;
-
-export const NO_OP = '';
-
-export const OPS = {
-  '+': add,
-  '-': subtract,
-  '×': multiply,
-  '÷': divide,
-};
-
-const OP_FUNCS = Object.values(OPS);
-
 const findAnAnswer = (ints) => {
   let answer = ints[0];
 
@@ -39,7 +28,7 @@ const findAnAnswer = (ints) => {
   return answer;
 };
 
-const math = () => {
+export default () => {
   const ints = [1, 2, 3, 4].map(randomInt);
 
   let answer = findAnAnswer(ints);
@@ -79,13 +68,8 @@ const math = () => {
       type: 'int',
     },
     {
-      type: 'equals',
-    },
-    {
       value: answer,
       type: 'answer',
     },
   ];
 };
-
-export default math;

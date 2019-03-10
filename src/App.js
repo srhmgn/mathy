@@ -1,18 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import './App.css';
 
-import math, { OPS } from './utils/math';
+import math from './utils/math';
+import { OPS } from './constants';
 
+const onDragOver = (e) => {
+  e.preventDefault();
+};
 
-const App = () => {
-  const [items, setItems] = useState(math());
-  const [drag, setDrag] = useState({});
-  const [canDrag, setCanDrag] = useState(true);
-
-  const onDragOver = (e) => {
-    e.preventDefault();
-  };
-
+const getValueAndAnswer = (items) => {
   let value;
   const [
     int1,
@@ -22,7 +18,6 @@ const App = () => {
     int3,
     op3,
     int4,
-    _equals,
     answer,
   ] = items.map(i => i.value);
 
@@ -32,18 +27,31 @@ const App = () => {
     value = OPS[op3](value, int4);
   }
 
+  return [value, answer];
+};
+
+const App = () => {
+  const [items, setItems] = useState(math());
+  const [drag, setDrag] = useState({});
+  const [canDrag, setCanDrag] = useState(true);
+
+  const [value, answer] = getValueAndAnswer(items);
   const didWin = value === answer;
 
   useEffect(() => {
-    if (didWin && canDrag) {
-      setCanDrag(false);
-      setTimeout(
-        () => {
-          setCanDrag(true);
-          setItems(math());
-        },
-        1000,
-      );
+    if (didWin) {
+      if (canDrag) {
+        setCanDrag(false);
+      } else {
+        setTimeout(
+          () => {
+            setItems(math());
+          },
+          1000,
+        );
+      }
+    } else if (!canDrag) {
+      setCanDrag(true);
     }
   });
 
@@ -58,6 +66,7 @@ const App = () => {
   };
 
   const dropOp = (e, i) => {
+    e.preventDefault();
     const copy = [...items];
     copy[i].value = drag.op;
     setItems(copy);
@@ -92,21 +101,17 @@ const App = () => {
           <div className="box-content">{item.value}</div>
         </div>
       );
-    } if (item.type === 'equals') {
-      return (
-        <div
-          className="box box--op box--equals"
-          key={i}
-        >
-          <div className="box-content">=</div>
-        </div>
-      );
     }
 
     return (
-      <div className="box box--answer" key={i}>
-        <div className="box-content">{item.value}</div>
-      </div>
+      <Fragment key={i}>
+        <div className="box box--op box--equals">
+          <div className="box-content">=</div>
+        </div>
+        <div className="box box--answer">
+          <div className="box-content">{item.value}</div>
+        </div>
+      </Fragment>
     );
   };
 
