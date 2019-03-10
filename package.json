@@ -2,6 +2,7 @@
   "name": "mathy",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://srhmgn.github.io/mathy",
   "dependencies": {
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
@@ -11,7 +12,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -29,6 +32,7 @@
     "eslint-plugin-jest": "^22.3.0",
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.12.4",
-    "eslint-plugin-react-hooks": "^1.5.0"
+    "eslint-plugin-react-hooks": "^1.5.0",
+    "gh-pages": "^2.0.1"
   }
 }
