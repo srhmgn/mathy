@@ -1,6 +1,6 @@
 import { OPS } from '../constants';
 
-export const getValueAndAnswer = (items) => {
+export const getValue = (items) => {
   let value;
   const [
     int1,
@@ -10,7 +10,6 @@ export const getValueAndAnswer = (items) => {
     int3,
     op3,
     int4,
-    answer,
   ] = items.map(i => i.value);
 
   if (OPS[op1] && OPS[op2] && OPS[op3]) {
@@ -19,9 +18,9 @@ export const getValueAndAnswer = (items) => {
     value = OPS[op3](value, int4);
   }
 
-  return [value, answer];
+  return value;
 };
 
 export default {
-  getValueAndAnswer,
+  getValue,
 };

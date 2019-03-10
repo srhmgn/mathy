@@ -18,58 +18,63 @@ const pickRandom = items => items[Math.floor(Math.random() * items.length)];
 
 const findAnAnswer = (ints) => {
   let answer = ints[0];
+  const ops = [];
 
   ints.forEach((int, i) => {
     if (i !== 0) {
-      answer = pickRandom(OP_FUNCS)(answer, int);
+      const op = pickRandom(OP_FUNCS);
+      answer = op(answer, int);
+      ops.push(op);
     }
   });
 
-  return answer;
+  return [answer, ops];
 };
 
 export default () => {
   const ints = [1, 2, 3, 4].map(randomInt);
 
-  let answer = findAnAnswer(ints);
-  while (answer % 1 !== 0 || answer < 1 || answer > 40) {
-    answer = findAnAnswer(ints);
+  let [answer, ops] = findAnAnswer(ints);
+  while (
+    answer % 1 !== 0 || answer < 1 || answer > 40
+    || ops.every(op => [OPS['+'], OPS['-']].includes(op))
+  ) {
+    [answer, ops] = findAnAnswer(ints);
   }
 
   const shuffled = shuffle(ints);
 
   return [
-    {
-      value: shuffled[0],
-      type: TYPES.INT,
-    },
-    {
-      value: NO_OP,
-      type: TYPES.OP,
-    },
-    {
-      value: shuffled[1],
-      type: TYPES.INT,
-    },
-    {
-      value: NO_OP,
-      type: TYPES.OP,
-    },
-    {
-      value: shuffled[2],
-      type: TYPES.INT,
-    },
-    {
-      value: NO_OP,
-      type: TYPES.OP,
-    },
-    {
-      value: shuffled[3],
-      type: TYPES.INT,
-    },
-    {
-      value: answer,
-      type: TYPES.ANSWER,
-    },
+    [
+      {
+        value: shuffled[0],
+        type: TYPES.INT,
+      },
+      {
+        value: NO_OP,
+        type: TYPES.OP,
+      },
+      {
+        value: shuffled[1],
+        type: TYPES.INT,
+      },
+      {
+        value: NO_OP,
+        type: TYPES.OP,
+      },
+      {
+        value: shuffled[2],
+        type: TYPES.INT,
+      },
+      {
+        value: NO_OP,
+        type: TYPES.OP,
+      },
+      {
+        value: shuffled[3],
+        type: TYPES.INT,
+      },
+    ],
+    answer,
   ];
 };

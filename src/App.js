@@ -1,18 +1,20 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 
 import buildItems from './utils/build-items';
 import { onDragOver } from './utils/drag';
-import { getValueAndAnswer } from './utils/calc';
+import { getValue } from './utils/calc';
 import { OPS, TYPES } from './constants';
 import Box from './Box';
 
 const App = () => {
-  const [items, setItems] = useState(buildItems());
+  const [originalItems, originalAnswer] = buildItems();
+  const [items, setItems] = useState(originalItems);
+  const [answer, setAnswer] = useState(originalAnswer);
   const [drag, setDrag] = useState({});
   const [canDrag, setCanDrag] = useState(true);
 
-  const [value, answer] = getValueAndAnswer(items);
+  const value = getValue(items);
   const didWin = value === answer;
 
   useEffect(() => {
@@ -22,7 +24,9 @@ const App = () => {
       } else {
         setTimeout(
           () => {
-            setItems(buildItems());
+            const [newItems, newAnswer] = buildItems();
+            setItems(newItems);
+            setAnswer(newAnswer);
           },
           1000,
         );
@@ -50,39 +54,30 @@ const App = () => {
   };
 
   const renderItem = (item, i) => {
-    switch (item.type) {
-      case TYPES.INT:
-        return (
-          <Box
-            onDragOver={onDragOver}
-            onDrop={e => swapInts(e, drag.intIdx, i)}
-            key={i}
-            draggable={canDrag}
-            onDragStart={e => setDrag({ el: e.target, intIdx: i })}
-            type={item.type}
-          >
-            {item.value}
-          </Box>
-        );
-      case TYPES.OP:
-        return (
-          <Box
-            onDragOver={onDragOver}
-            onDrop={e => dropOp(e, i)}
-            key={i}
-            type={item.type}
-          >
-            {item.value}
-          </Box>
-        );
-      default:
-        return (
-          <Fragment key={i}>
-            <Box type={TYPES.EQUALS}>=</Box>
-            <Box type={TYPES.ANSWER}>{item.value}</Box>
-          </Fragment>
-        );
+    if (item.type === TYPES.INT) {
+      return (
+        <Box
+          onDragOver={onDragOver}
+          onDrop={e => swapInts(e, drag.intIdx, i)}
+          key={i}
+          draggable={canDrag}
+          onDragStart={e => setDrag({ el: e.target, intIdx: i })}
+          type={item.type}
+        >
+          {item.value}
+        </Box>
+      );
     }
+    return (
+      <Box
+        onDragOver={onDragOver}
+        onDrop={e => dropOp(e, i)}
+        key={i}
+        type={item.type}
+      >
+        {item.value}
+      </Box>
+    );
   };
 
   return (
@@ -101,6 +96,8 @@ const App = () => {
       </div>
       <div className="list list--main">
         {items.map(renderItem)}
+        <Box type={TYPES.EQUALS}>=</Box>
+        <Box type={TYPES.ANSWER}>{answer}</Box>
       </div>
       <div>{didWin && 'You won!'}</div>
     </div>
