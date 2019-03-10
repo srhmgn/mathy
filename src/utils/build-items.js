@@ -18,17 +18,20 @@ const pickRandom = items => items[Math.floor(Math.random() * items.length)];
 
 const findAnAnswer = (ints) => {
   let answer = ints[0];
+  let hasLameDivision = false;
   const ops = [];
 
   ints.forEach((int, i) => {
-    if (i !== 0) {
+    if (!hasLameDivision && i !== 0) {
       const op = pickRandom(OP_FUNCS);
       answer = op(answer, int);
       ops.push(op);
     }
+
+    hasLameDivision = i === 1 && ints[0] / ints[1] === 1;
   });
 
-  return [answer, ops];
+  return hasLameDivision ? [0, undefined] : [answer, ops];
 };
 
 export default () => {
