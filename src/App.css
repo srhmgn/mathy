@@ -6,7 +6,6 @@
 
 .list {
   display: grid;
-  grid-column-gap: 1%;
   margin: 5% 0;
   align-items: center;
 }
@@ -16,6 +15,7 @@
 }
 
 .list--op {
+  grid-column-gap: 5px;
   grid-auto-flow: column;
   width: 40%;
 }
