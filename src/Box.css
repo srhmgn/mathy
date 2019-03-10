@@ -1,0 +1,46 @@
+.box {
+  position: relative;
+  height: 0;
+  padding-bottom: 100%;
+}
+ 
+.box-content {
+  position: absolute;
+  background-color: #eee;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: .2s background-color ease-in-out;
+}
+
+.box--int:hover {
+  cursor: pointer;
+}
+
+.box--int:hover .box-content {
+  background-color: #ddd;
+}
+
+.box--answer .box-content {
+  background-color: gold;
+}
+
+.list--op .box--op .box-content {
+  background-color: coral;
+  color: white;
+}
+
+.box--equals .box-content,
+.list:not(.list--op) .box--op .box-content {
+  background-color: transparent;
+  font-weight: bold;
+  color: coral;
+}
+
+.box--equals .box-content {
+  color: #333;
+}

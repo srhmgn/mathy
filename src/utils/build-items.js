@@ -1,4 +1,4 @@
-import { OPS } from '../constants';
+import { OPS, TYPES } from '../constants';
 
 const NO_OP = '';
 const OP_FUNCS = Object.values(OPS);
@@ -41,35 +41,35 @@ export default () => {
   return [
     {
       value: shuffled[0],
-      type: 'int',
+      type: TYPES.INT,
     },
     {
       value: NO_OP,
-      type: 'op',
+      type: TYPES.OP,
     },
     {
       value: shuffled[1],
-      type: 'int',
+      type: TYPES.INT,
     },
     {
       value: NO_OP,
-      type: 'op',
+      type: TYPES.OP,
     },
     {
       value: shuffled[2],
-      type: 'int',
+      type: TYPES.INT,
     },
     {
       value: NO_OP,
-      type: 'op',
+      type: TYPES.OP,
     },
     {
       value: shuffled[3],
-      type: 'int',
+      type: TYPES.INT,
     },
     {
       value: answer,
-      type: 'answer',
+      type: TYPES.ANSWER,
     },
   ];
 };

@@ -13,5 +13,6 @@ export const OPS = {
 export const TYPES = {
   INT: 'int',
   OP: 'op',
+  EQUALS: 'equals',
   ANSWER: 'answer',
 };

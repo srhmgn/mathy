@@ -1,37 +1,14 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import './App.css';
 
-import math from './utils/math';
-import { OPS } from './constants';
-
-const onDragOver = (e) => {
-  e.preventDefault();
-};
-
-const getValueAndAnswer = (items) => {
-  let value;
-  const [
-    int1,
-    op1,
-    int2,
-    op2,
-    int3,
-    op3,
-    int4,
-    answer,
-  ] = items.map(i => i.value);
-
-  if (OPS[op1] && OPS[op2] && OPS[op3]) {
-    value = OPS[op1](int1, int2);
-    value = OPS[op2](value, int3);
-    value = OPS[op3](value, int4);
-  }
-
-  return [value, answer];
-};
+import buildItems from './utils/build-items';
+import { onDragOver } from './utils/drag';
+import { getValueAndAnswer } from './utils/calc';
+import { OPS, TYPES } from './constants';
+import Box from './Box';
 
 const App = () => {
-  const [items, setItems] = useState(math());
+  const [items, setItems] = useState(buildItems());
   const [drag, setDrag] = useState({});
   const [canDrag, setCanDrag] = useState(true);
 
@@ -45,7 +22,7 @@ const App = () => {
       } else {
         setTimeout(
           () => {
-            setItems(math());
+            setItems(buildItems());
           },
           1000,
         );
@@ -73,61 +50,53 @@ const App = () => {
   };
 
   const renderItem = (item, i) => {
-    if (item.type === 'int') {
-      return (
-        <div
-          className="box box--int"
-          onDragOver={onDragOver}
-          onDrop={e => swapInts(e, drag.intIdx, i)}
-          key={i}
-        >
-          <div
-            className="box-content"
+    switch (item.type) {
+      case TYPES.INT:
+        return (
+          <Box
+            onDragOver={onDragOver}
+            onDrop={e => swapInts(e, drag.intIdx, i)}
+            key={i}
             draggable={canDrag}
             onDragStart={e => setDrag({ el: e.target, intIdx: i })}
+            type={item.type}
           >
             {item.value}
-          </div>
-        </div>
-      );
-    } if (item.type === 'op') {
-      return (
-        <div
-          onDragOver={onDragOver}
-          onDrop={e => dropOp(e, i)}
-          className="box box--op"
-          key={i}
-        >
-          <div className="box-content">{item.value}</div>
-        </div>
-      );
+          </Box>
+        );
+      case TYPES.OP:
+        return (
+          <Box
+            onDragOver={onDragOver}
+            onDrop={e => dropOp(e, i)}
+            key={i}
+            type={item.type}
+          >
+            {item.value}
+          </Box>
+        );
+      default:
+        return (
+          <Fragment key={i}>
+            <Box type={TYPES.EQUALS}>=</Box>
+            <Box type={TYPES.ANSWER}>{item.value}</Box>
+          </Fragment>
+        );
     }
-
-    return (
-      <Fragment key={i}>
-        <div className="box box--op box--equals">
-          <div className="box-content">=</div>
-        </div>
-        <div className="box box--answer">
-          <div className="box-content">{item.value}</div>
-        </div>
-      </Fragment>
-    );
   };
 
   return (
     <div className="wrapper">
       <div className="list list--op">
         {Object.keys(OPS).map(op => (
-          <div className="box box--op-top" key={op}>
-            <div
-              className="box-content"
-              draggable={canDrag}
-              onDragStart={e => setDrag({ el: e.target, op })}
-            >
-              {op}
-            </div>
-          </div>
+          <Box
+            draggable={canDrag}
+            onDragStart={e => setDrag({ el: e.target, op })}
+            key={op}
+            type={TYPES.OP}
+          >
+            {op}
+          </Box>
         ))}
       </div>
       <div className="list list--main">
