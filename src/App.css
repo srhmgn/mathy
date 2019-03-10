@@ -6,12 +6,17 @@
 
 .list {
   display: grid;
-  grid-auto-flow: column;
-  grid-column-gap: 5%;
+  grid-column-gap: 1%;
   margin: 5% 0;
+  align-items: center;
+}
+
+.list--main {
+  grid-template-columns: repeat(4, 1fr .4fr) 1fr;
 }
 
 .list--op {
+  grid-auto-flow: column;
   width: 40%;
 }
 
@@ -46,7 +51,17 @@
   background-color: gold;
 }
 
-.box--op .box-content {
+.box--op-top .box-content {
   background-color: coral;
   color: white;
+}
+
+.box--op .box-content {
+  background-color: transparent;
+  font-weight: bold;
+  color: coral;
+}
+
+.box--equals .box-content {
+  color: #333;
 }
