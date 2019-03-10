@@ -16,14 +16,21 @@ const subtract = (x, y) => x - y;
 const multiply = (x, y) => x * y;
 const divide = (x, y) => x / y;
 
-const OPS = [add, subtract, multiply, divide];
+export const OPS = {
+  add,
+  subtract,
+  multiply,
+  divide,
+};
+
+const OP_FUNCS = Object.values(OPS);
 
 const findAnAnswer = (ints) => {
   let answer = ints[0];
 
   ints.forEach((int, i) => {
     if (i !== 0) {
-      answer = pickRandom(OPS)(answer, int);
+      answer = pickRandom(OP_FUNCS)(answer, int);
     }
   });
 

@@ -4,7 +4,7 @@
     "jest/globals": true,
     "browser": true
   },
-  "plugins": ["jest"],
+  "plugins": ["jest", "react-hooks"],
   "rules": {
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/no-array-index-key": [0]
