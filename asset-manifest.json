@@ -1,13 +1,13 @@
 {
   "main.css": "/mathy/static/css/main.4339900a.chunk.css",
-  "main.js": "/mathy/static/js/main.0028998e.chunk.js",
-  "main.js.map": "/mathy/static/js/main.0028998e.chunk.js.map",
+  "main.js": "/mathy/static/js/main.1c90e611.chunk.js",
+  "main.js.map": "/mathy/static/js/main.1c90e611.chunk.js.map",
   "runtime~main.js": "/mathy/static/js/runtime~main.a829d149.js",
   "runtime~main.js.map": "/mathy/static/js/runtime~main.a829d149.js.map",
   "static/js/2.b1c4f187.chunk.js": "/mathy/static/js/2.b1c4f187.chunk.js",
   "static/js/2.b1c4f187.chunk.js.map": "/mathy/static/js/2.b1c4f187.chunk.js.map",
   "index.html": "/mathy/index.html",
-  "precache-manifest.fb97d04c066e652d1722cf7d090c5164.js": "/mathy/precache-manifest.fb97d04c066e652d1722cf7d090c5164.js",
+  "precache-manifest.4cc88bcd3195a612b6f3cba112e35aac.js": "/mathy/precache-manifest.4cc88bcd3195a612b6f3cba112e35aac.js",
   "service-worker.js": "/mathy/service-worker.js",
   "static/css/main.4339900a.chunk.css.map": "/mathy/static/css/main.4339900a.chunk.css.map"
 }
