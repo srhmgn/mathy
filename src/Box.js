@@ -11,6 +11,7 @@ const Box = ({
 }) => (
   <div
     className={`box box--${type}`}
+    onDragEnter={onDragOver} /* for mobile polyfill */
     onDragOver={onDragOver}
     onDrop={onDrop}
   >

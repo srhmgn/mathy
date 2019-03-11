@@ -1,4 +1,3 @@
-import { TYPES } from '../constants';
 import { getValue } from './calc';
 
 describe('getValue', () => {

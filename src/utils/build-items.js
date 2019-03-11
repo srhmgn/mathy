@@ -43,6 +43,16 @@ const findAnAnswer = (ints) => {
     return false;
   }
 
+  console.log('===Used ', [
+    ints[0],
+    ops[0],
+    ints[1],
+    ops[1],
+    ints[2],
+    ops[2],
+    ints[3],
+  ], 'to make ', answer);
+
   return answer;
 };
 

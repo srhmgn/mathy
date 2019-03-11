@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://srhmgn.github.io/mathy",
   "dependencies": {
+    "mobile-drag-drop": "^2.3.0-rc.1",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-scripts": "2.1.8"

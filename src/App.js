@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { polyfill } from 'mobile-drag-drop';
 import './App.css';
 
 import buildItems from './utils/build-items';
@@ -6,6 +7,8 @@ import { onDragOver } from './utils/drag';
 import { getValue } from './utils/calc';
 import { OPS, TYPES } from './constants';
 import Box from './Box';
+
+polyfill();
 
 const App = () => {
   const [originalItems, originalAnswer] = buildItems();
