@@ -1,7 +1,7 @@
 import { OPS, TYPES } from '../constants';
+import { getValue } from './calc';
 
 const NO_OP = '';
-const OP_FUNCS = Object.values(OPS);
 
 const randomInt = () => Math.ceil(Math.random() * 8) + 1;
 
@@ -17,26 +17,31 @@ const shuffle = (a) => {
 const pickRandom = items => items[Math.floor(Math.random() * items.length)];
 
 const findAnAnswer = (ints) => {
-  let answer;
-  // let isLame = false;
-
   const ops = [
-    pickRandom(OP_FUNCS),
-    pickRandom(OP_FUNCS),
-    pickRandom(OP_FUNCS),
+    pickRandom(Object.keys(OPS)),
+    pickRandom(Object.keys(OPS)),
+    pickRandom(Object.keys(OPS)),
   ];
 
-  if (ops.every(op => [OPS['+'], OPS['-'].includes(op)])) {
+  if (ops.every(op => ['+', '-'].includes(op))) {
     // It's no fun if everything is addition/subtraction
-    return 0;
+    return false;
   }
 
-  // mult/division
-  ints.forEach((int, i) => {
-    if (i !== 0) {
+  const answer = getValue([
+    ints[0],
+    ops[0],
+    ints[1],
+    ops[1],
+    ints[2],
+    ops[2],
+    ints[3],
+  ]);
 
-    }
-  });
+  // answers must be whole nums between 1 and 40
+  if (answer % 1 !== 0 || answer < 1 || answer > 40) {
+    return false;
+  }
 
   return answer;
 };
@@ -44,12 +49,9 @@ const findAnAnswer = (ints) => {
 export default () => {
   const ints = [1, 2, 3, 4].map(randomInt);
 
-  let [answer, ops] = findAnAnswer(ints);
-  while (
-    answer % 1 !== 0 || answer < 1 || answer > 40
-    || ops.every(op => [OPS['+'], OPS['-']].includes(op))
-  ) {
-    [answer, ops] = findAnAnswer(ints);
+  let answer = findAnAnswer(ints);
+  while (!answer) {
+    answer = findAnAnswer(ints);
   }
 
   const shuffled = shuffle(ints);

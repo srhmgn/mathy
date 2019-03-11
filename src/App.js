@@ -14,7 +14,7 @@ const App = () => {
   const [drag, setDrag] = useState({});
   const [canDrag, setCanDrag] = useState(true);
 
-  const value = getValue(items);
+  const value = getValue(items.map(i => i.value));
   const didWin = value === answer;
 
   useEffect(() => {
