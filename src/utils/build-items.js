@@ -29,13 +29,34 @@ const findAnAnswer = (ints) => {
   }
 
   const answer = getValue([
-    ints[0],
-    ops[0],
-    ints[1],
-    ops[1],
-    ints[2],
-    ops[2],
-    ints[3],
+    {
+      type: TYPES.INT,
+      value: ints[0],
+    },
+    {
+      type: TYPES.OP,
+      value: ops[0],
+    },
+    {
+      type: TYPES.INT,
+      value: ints[1],
+    },
+    {
+      type: TYPES.OP,
+      value: ops[1],
+    },
+    {
+      type: TYPES.INT,
+      value: ints[2],
+    },
+    {
+      type: TYPES.OP,
+      value: ops[2],
+    },
+    {
+      type: TYPES.INT,
+      value: ints[3],
+    },
   ]);
 
   // answers must be whole nums between 1 and 40

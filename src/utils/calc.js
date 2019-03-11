@@ -1,46 +1,73 @@
 /* eslint-disable no-loop-func */
-import { OPS } from '../constants';
+import { OPS, TYPES } from '../constants';
 
-export const getValue = (values) => {
-  const op1 = values[1];
-  const op2 = values[3];
-  const op3 = values[5];
+export const getValue = (items) => {
+  const hasUndefinedOps = items.some(item => item.type === TYPES.OP && !OPS[item.value]);
+  if (hasUndefinedOps) return undefined;
 
-  if (!(OPS[op1] && OPS[op2] && OPS[op3])) {
-    return undefined;
+  let didFindParens = true;
+  let didFindMultDiv = true;
+  let finalItems = [...items];
+
+  while (didFindParens) {
+    const tempItems = [];
+    let ignoreUntilIdx = 0;
+    didFindParens = false;
+    finalItems.forEach((item, i) => {
+      if (!ignoreUntilIdx) {
+        if (item.parenStart) {
+          const parenEndIndex = i + finalItems.slice(i).findIndex(x => x.parenEnd);
+          ignoreUntilIdx = parenEndIndex + 1;
+          tempItems.push({
+            type: TYPES.INT,
+            value: getValue(finalItems.slice(i, parenEndIndex + 1).map((x) => {
+              delete x.parenStart;
+              delete x.parenEnd;
+              return x;
+            })),
+          });
+          didFindParens = true;
+        } else {
+          tempItems.push(item);
+        }
+      } else if (i >= ignoreUntilIdx) {
+        tempItems.push(item);
+      }
+    });
+    finalItems = tempItems;
   }
 
-  let didFindMultDiv = true;
-  let finalValues = [...values];
-
   while (didFindMultDiv) {
-    const tmpValues = [];
+    const tempItems = [];
     let ignoreUntilIdx = 0;
     didFindMultDiv = false;
-    finalValues.forEach((val, i) => {
-      const nextVal = finalValues[i + 1];
+    finalItems.forEach((item, i) => {
       if (!ignoreUntilIdx) {
+        const nextVal = finalItems[i + 1] && finalItems[i + 1].value;
         if (nextVal === '×' || nextVal === '÷') {
-          tmpValues.push(OPS[nextVal](val, finalValues[i + 2]));
+          tempItems.push({
+            type: TYPES.INT,
+            value: OPS[nextVal](item.value, finalItems[i + 2].value),
+          });
           ignoreUntilIdx = i + 3;
           didFindMultDiv = true;
         } else {
-          tmpValues.push(val);
+          tempItems.push(item);
         }
       } else if (i >= ignoreUntilIdx) {
-        tmpValues.push(val);
+        tempItems.push(item);
       }
     });
-    finalValues = tmpValues;
+    finalItems = tempItems;
   }
 
   let value;
 
-  finalValues.forEach((val, i) => {
+  finalItems.forEach((item, i) => {
     if (i === 0) {
-      value = val;
-    } else if (OPS[val]) {
-      value = OPS[val](value, finalValues[i + 1]);
+      value = item.value; // eslint-disable-line prefer-destructuring
+    } else if (OPS[item.value]) {
+      value = OPS[item.value](value, finalItems[i + 1].value);
     }
   });
 

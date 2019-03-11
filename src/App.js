@@ -9,16 +9,15 @@ import { OPS, TYPES } from './constants';
 import Box from './Box';
 
 polyfill();
+const [originalItems, originalAnswer] = buildItems();
 
 const App = () => {
-  const [originalItems, originalAnswer] = buildItems();
   const [items, setItems] = useState(originalItems);
   const [answer, setAnswer] = useState(originalAnswer);
   const [drag, setDrag] = useState({});
   const [canDrag, setCanDrag] = useState(true);
 
-  const value = getValue(items.map(i => i.value));
-  const didWin = value === answer;
+  const didWin = getValue(items) === answer;
 
   useEffect(() => {
     if (didWin) {
