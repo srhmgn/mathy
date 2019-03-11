@@ -1,22 +1,49 @@
+/* eslint-disable no-loop-func */
 import { OPS } from '../constants';
 
 export const getValue = (items) => {
-  let value;
-  const [
-    int1,
-    op1,
-    int2,
-    op2,
-    int3,
-    op3,
-    int4,
-  ] = items.map(i => i.value);
+  const values = items.map(i => i.value);
+  const op1 = values[1];
+  const op2 = values[3];
+  const op3 = values[5];
 
-  if (OPS[op1] && OPS[op2] && OPS[op3]) {
-    value = OPS[op1](int1, int2);
-    value = OPS[op2](value, int3);
-    value = OPS[op3](value, int4);
+  if (!(OPS[op1] && OPS[op2] && OPS[op3])) {
+    return undefined;
   }
+
+  let didFindMultDiv = true;
+  let finalNewValues = [...values];
+
+  while (didFindMultDiv) {
+    const newValues = [];
+    let ignoreUntilIdx = 0;
+    didFindMultDiv = false;
+    finalNewValues.forEach((val, i) => {
+      const nextVal = finalNewValues[i + 1];
+      if (!ignoreUntilIdx) {
+        if (nextVal === '×' || nextVal === '÷') {
+          newValues.push(OPS[nextVal](val, finalNewValues[i + 2]));
+          ignoreUntilIdx = i + 3;
+          didFindMultDiv = true;
+        } else {
+          newValues.push(val);
+        }
+      } else if (i >= ignoreUntilIdx) {
+        newValues.push(val);
+      }
+    });
+    finalNewValues = newValues;
+  }
+
+  let value;
+
+  finalNewValues.forEach((val, i) => {
+    if (i === 0) {
+      value = val;
+    } else if (OPS[val]) {
+      value = OPS[val](value, finalNewValues[i + 1]);
+    }
+  });
 
   return value;
 };

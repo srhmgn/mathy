@@ -17,21 +17,28 @@ const shuffle = (a) => {
 const pickRandom = items => items[Math.floor(Math.random() * items.length)];
 
 const findAnAnswer = (ints) => {
-  let answer = ints[0];
-  let hasLameDivision = false;
-  const ops = [];
+  let answer;
+  // let isLame = false;
 
+  const ops = [
+    pickRandom(OP_FUNCS),
+    pickRandom(OP_FUNCS),
+    pickRandom(OP_FUNCS),
+  ];
+
+  if (ops.every(op => [OPS['+'], OPS['-'].includes(op)])) {
+    // It's no fun if everything is addition/subtraction
+    return 0;
+  }
+
+  // mult/division
   ints.forEach((int, i) => {
-    if (!hasLameDivision && i !== 0) {
-      const op = pickRandom(OP_FUNCS);
-      answer = op(answer, int);
-      ops.push(op);
-    }
+    if (i !== 0) {
 
-    hasLameDivision = i === 1 && ints[0] / ints[1] === 1;
+    }
   });
 
-  return hasLameDivision ? [0, undefined] : [answer, ops];
+  return answer;
 };
 
 export default () => {
